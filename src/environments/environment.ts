@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  mapbox_key: "pk.eyJ1IjoiZmx5YmxhY2tiaXJkIiwiYSI6ImNqdXR0dHo4bDBhc3Q0NG9ncHlrMjBwaWQifQ.fLe9rCquksuLG5v2LXKkFA",
+  airmap_api_key : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjcmVkZW50aWFsX2lkIjoiY3JlZGVudGlhbHxnWUswbVdPRlg1T0xOQlRwQUdxbXZJa3ZsQWJRIiwiYXBwbGljYXRpb25faWQiOiJhcHBsaWNhdGlvbnxtTzJPek1tdThrMmtlMmgwV2VQQlJoUU84T0VwIiwib3JnYW5pemF0aW9uX2lkIjoiZGV2ZWxvcGVyfGFHN1duNHlmUFA3QVFOSGQwd0tLdlV3bkIwbVAiLCJpYXQiOjE1MTc3MTc5ODh9.oiiS-1JWSoHiRqihmIIJujdnQaYgF0xl96Q_JTUkf0k"
 };
 
 /*

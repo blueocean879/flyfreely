@@ -1,0 +1,35 @@
+<div id="map-sidebar" class="m-3">
+  <div class="sidebar-container bg-white p-3 h-100 border" [hidden]="!isOpen">
+    <div class="sidebar-headder">
+      <h3 class="text-center">Layer List</h3>
+      <div class="d-flex justify-content-between">
+        <button class="btn btn-primary"><i class="fa fa-folder"></i>Layer</button>
+        <div class="d-flex">
+            <button class="btn btn-primary"><i class="fa fa-home"></i></button>
+            <button class="btn btn-primary"><i class="fa fa-bars"></i></button>
+            <button class="btn btn-primary"><i class="fa fa-trash"></i></button>
+            <button class="btn btn-primary"><i class="fa fa-home"></i></button>
+        </div>
+      </div>
+    </div>
+    <div class="tree-container border mt-3 p-2">
+      <tree-root
+        [options] ="options"
+        [nodes]="items"
+        (activate)="activateTree($event)"
+        (focus)="focusTree($event)"
+        (blur)="blurTree($event)">
+          <ng-template #treeNodeTemplate let-node let-index="index">
+            <i class="fab fa-angellist"></i>
+            <span>{{ node.data.name }}</span>
+          </ng-template>
+      </tree-root>
+    </div>
+  </div>
+  <div class="toggle-button-container">
+    <button class="btn toogle-button" (click)="togglePane()">
+      <i *ngIf="isOpen" class="fa fa-caret-left"></i>
+      <i *ngIf="!isOpen" class="fa fa-caret-right"></i>
+    </button>
+  </div>
+</div>

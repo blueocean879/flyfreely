@@ -1,15 +1,12 @@
 
-<div class="fixed-top">
-  <div class="d-flex">
-    <app-map-sidebar
-      [items]="sideBarItems"
-      (onSelectItem)="onSelectTreeItem($event)">
-    </app-map-sidebar>
-    <app-map-sub-sidebar
-      *ngIf="selectedTreeItem"
-      [selectedItem]="selectedTreeItem">
-    </app-map-sub-sidebar>
-  </div>
-</div>
-
 <app-map-content></app-map-content>
+<app-map-sidebar
+  [items]="sideBarItems"
+  (onSelectItem)="onSelectTreeItem($event)">
+</app-map-sidebar>
+<app-map-sub-sidebar
+  *ngIf="selectedTreeItem"
+  [selectedItem]="selectedTreeItem">
+</app-map-sub-sidebar>
+
+

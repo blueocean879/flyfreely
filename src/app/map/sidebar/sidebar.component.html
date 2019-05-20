@@ -18,7 +18,9 @@
         [nodes]="items"
         (activate)="activateTree($event)"
         (focus)="focusTree($event)"
-        (blur)="blurTree($event)">
+        (blur)="blurTree($event)"
+        (select)="onSelect($event)"
+        (deselect)="onDeselect($event)">
           <ng-template #treeNodeTemplate let-node let-index="index">
             <i class="fab fa-angellist"></i>
             <span>{{ node.data.name }}</span>

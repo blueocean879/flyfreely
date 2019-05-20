@@ -1,10 +1,9 @@
-import { Injectable } from '@angular/core';
+import { Injectable,ViewChild } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-
-
+import { Map, GeoJSONSource, LngLat } from "mapbox-gl";
 
 @Injectable()
 export class MapService {
@@ -12,6 +11,8 @@ export class MapService {
         headers: new HttpHeaders({'Content-Type' : 'application/json'})
     };
       
+    map:Map;
+
     constructor(private http: HttpClient) {
     }
 
@@ -19,29 +20,29 @@ export class MapService {
         const nodes = [
             {
                 id: 1,
-                name: 'root1',
-                text: 'This is text for root1',
-                children: [
-                  { id: 2, name: 'child1', text: 'This is text for child1' },
-                  { id: 3, name: 'child2', text: 'This is text for child2' }
-                ]
+                name: 'Class B',
+                text: 'Class B',
+                layer_id: 'class_b',
+                isSelected: true
+              },
+              {
+                id: 2,
+                name: 'Class C',
+                text: 'Class C',
+                layer_id: 'class_c',
+              },
+              {
+                id: 3,
+                name: 'Class D',
+                text: 'Class D',
+                layer_id: 'class_d',
               },
               {
                 id: 4,
-                name: 'root2',
-                text: 'This is text for root2',
-                children: [
-                  { id: 5, name: 'child2.1', text: 'This is text for child2.1' },
-                  {
-                    id: 6,
-                    name: 'child2.2',
-                    text: 'This is text for child2.2',
-                    children: [
-                      { id: 7, name: 'subsub', text: 'This is text for subsub' }
-                    ]
-                  }
-                ]
-              }
+                name: 'Class E0',
+                text: 'Class E0',
+                layer_id: 'class_e0',
+              },
             ];
 
         return nodes;
@@ -49,5 +50,13 @@ export class MapService {
     
     private handleError(error: Response | any) {
         return Observable.throw(error);
+    }
+
+    selectLayer(layer_id){
+      this.map.setLayoutProperty(layer_id, 'visibility', 'visible');
+    }
+
+    unselectLayer(layer_id){
+      this.map.setLayoutProperty(layer_id, 'visibility', 'none');
     }
 }

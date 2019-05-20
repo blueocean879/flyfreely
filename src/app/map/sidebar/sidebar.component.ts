@@ -1,5 +1,6 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { ITreeOptions } from 'angular-tree-component';
+import { Component, OnInit, ViewChild, Input, Output, EventEmitter,AfterViewInit } from '@angular/core';
+import { ITreeOptions, TreeComponent } from 'angular-tree-component';
+import { MapService } from '../map.service';
 
 
 @Component({
@@ -7,7 +8,7 @@ import { ITreeOptions } from 'angular-tree-component';
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss']
 })
-export class MapSidebarComponent implements OnInit {
+export class MapSidebarComponent implements OnInit, AfterViewInit {
   @Input() items: any[] = [];
   @Output() onSelectItem = new EventEmitter();
 
@@ -15,28 +16,45 @@ export class MapSidebarComponent implements OnInit {
   options: ITreeOptions = {
     useCheckbox: true
   };
-  constructor() { }
+
+  @ViewChild(TreeComponent) tree: TreeComponent;
+
+  constructor(private mapService:MapService) {}
 
   ngOnInit() {
-    console.log(this.items);
+  //  console.log(this.items);
   }
 
+  ngAfterViewInit(){
+    setTimeout(() => {
+      const nodes = this.tree.treeModel.nodes;
+      nodes.forEach(node => {
+        this.tree.treeModel.getNodeById(node.id).setIsSelected(true)
+      })
+    },1000);
+  }
 
   togglePane() {
     this.isOpen = !this.isOpen;
   }
 
   activateTree(event) {
-    console.log("activate:",event);
     this.onSelectItem.next(event.node.data);
   }
 
   focusTree(event) {
-    console.log("focus:",event);
-
   }
 
   blurTree(event) {
-    console.log("blur:",event);
+  }
+
+  onSelect(event){
+    let layer_id = event.node.data.layer_id;
+    this.mapService.selectLayer(layer_id);
+  }
+
+  onDeselect(event){
+    let layer_id = event.node.data.layer_id;
+    this.mapService.unselectLayer(layer_id);
   }
 }

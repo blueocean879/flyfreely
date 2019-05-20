@@ -15,6 +15,8 @@ const AIRMAP_API_KEY = environment.airmap_api_key;
 })
 export class MapContentComponent implements OnInit {
 		map: any;
+		draw_control: any;
+
 	 	constructor(private mapService: MapService) { }
 
 		ngOnInit() {
@@ -33,6 +35,8 @@ export class MapContentComponent implements OnInit {
 			  center: [-14, 35]
 			});
 
+			this.mapService.map = this.map;
+
 			// optional
 			var nav = new mapboxgl.NavigationControl();
 			this.map.addControl(nav, 'bottom-right');
@@ -42,11 +46,49 @@ export class MapContentComponent implements OnInit {
 				mapboxgl: mapboxgl
 			}));
 
-			let Draw = new MapboxDraw();
-			this.map.addControl(Draw, 'top-right');
+			this.draw_control = new MapboxDraw({
+				displayControlsDefault: false,
+				controls: {
+					point:true,
+					polygon: true,
+					line_string:true,
+					trash: true
+				}
+			});
 
-			this.mapService.map = this.map;
+			this.map.addControl(this.draw_control, 'top-right');
+			
+			this.map.on('draw.create', e => {
+				this.updateArea(e);
+			});
 
+			this.map.on('draw.delete',  e => {
+				this.updateArea(e);
+			});
+
+			this.map.on('draw.update',  e => {
+				this.updateArea(e);
+			});
+
+
+			this.map.on('draw.selectionchange', e => {
+				if(e.features.length == 0){
+					let data = this.draw_control.getAll();
+					console.log(data)
+				}
+			})
+	  }
+
+	  updateArea(e){
+	  //	console.log(e);
+	  	let data = this.draw_control.getAll();
+			//console.log(this.draw_control.getMode()); 
+			//draw_line_string, draw_polygon, draw_point
+			if (data.features.length > 0) {
+			//	console.log(data.features)
+			} else {
+				if (e.type !== 'draw.delete') alert("Use the draw tools to draw a polygon!");
+			}
 	  }
 
 }

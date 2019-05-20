@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { MapService } from './map.service';
 
 @Component({
@@ -10,6 +10,8 @@ export class MapComponent implements OnInit {
 
   sideBarItems: any[]=[];
   selectedTreeItem: any = null;
+  @Input() allowEditing: boolean;
+  @Input() selectedLayers: string[];
   
   constructor(private mapService: MapService) { }
 

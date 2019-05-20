@@ -24,7 +24,7 @@ export class MapComponent implements OnInit {
 
   onSelectTreeItem(item) {
     this.selectedTreeItem = item;
-    this.subSidebarEL.isOpen = true;
+    if (this.subSidebarEL) this.subSidebarEL.isOpen = true;
   }
 
   onHideSubSidebar() {
@@ -32,7 +32,7 @@ export class MapComponent implements OnInit {
   }
 
   onHideSidebar() {
-    this.subSidebarEL.isOpen = false;
+    if (this.subSidebarEL) this.subSidebarEL.isOpen = false;
   }
 
 }

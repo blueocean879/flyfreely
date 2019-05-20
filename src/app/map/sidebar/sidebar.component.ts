@@ -31,8 +31,6 @@ export class MapSidebarComponent implements OnInit, AfterViewInit {
     useCheckbox: true
   };
 
-
-
   @ViewChild(TreeComponent) tree: TreeComponent;
 
   constructor(private mapService:MapService) {}
@@ -59,20 +57,19 @@ export class MapSidebarComponent implements OnInit, AfterViewInit {
   }
 
   activateTree(event) {
-
-    console.log("active");
+  
   }
 
   focusTree(event) {
-    console.log("focus");
+    
   }
 
   blurTree(event) {
-    console.log("blur");
+    
   }
 
   clickTree(event) {
-    console.log("click", event);
+    
   }
 
   onSelect(event){

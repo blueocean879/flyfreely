@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild, Input, Output, EventEmitter,AfterViewInit } from '@angular/core';
-import { ITreeOptions, TreeComponent } from 'angular-tree-component';
+import { ITreeOptions, TreeComponent, IActionMapping, TREE_ACTIONS } from 'angular-tree-component';
 import { MapService } from '../map.service';
-
 
 @Component({
   selector: 'app-map-sidebar',
@@ -11,11 +10,28 @@ import { MapService } from '../map.service';
 export class MapSidebarComponent implements OnInit, AfterViewInit {
   @Input() items: any[] = [];
   @Output() onSelectItem = new EventEmitter();
+  @Output() onHideSidebar = new EventEmitter();
+  actionMapping: IActionMapping = {
+    mouse: {
+      click: (tree, node, $event) => {
+        console.log(node.data);
+        this.onSelectItem.next(node.data);
 
+        $event.shiftKey
+          ? TREE_ACTIONS.TOGGLE_ACTIVE_MULTI(tree, node, $event)
+          : TREE_ACTIONS.TOGGLE_ACTIVE(tree, node, $event);
+
+      }
+    }
+  };
+  
   isOpen: boolean = true;
   options: ITreeOptions = {
+    actionMapping: this.actionMapping,
     useCheckbox: true
   };
+
+
 
   @ViewChild(TreeComponent) tree: TreeComponent;
 
@@ -36,16 +52,27 @@ export class MapSidebarComponent implements OnInit, AfterViewInit {
 
   togglePane() {
     this.isOpen = !this.isOpen;
+
+    if (!this.isOpen) {
+      this.onHideSidebar.next();
+    }
   }
 
   activateTree(event) {
-    this.onSelectItem.next(event.node.data);
+
+    console.log("active");
   }
 
   focusTree(event) {
+    console.log("focus");
   }
 
   blurTree(event) {
+    console.log("blur");
+  }
+
+  clickTree(event) {
+    console.log("click", event);
   }
 
   onSelect(event){

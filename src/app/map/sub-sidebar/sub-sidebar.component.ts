@@ -1,4 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges, Output, EventEmitter } from '@angular/core';
+
 
 @Component({
   selector: 'app-map-sub-sidebar',
@@ -8,13 +9,30 @@ import { Component, OnInit, Input } from '@angular/core';
 export class MapSubSidebarComponent implements OnInit {
   
   @Input() selectedItem: any;
+  @Output() onHideSubSideBar = new EventEmitter();
   isOpen: boolean = true;
+  
   constructor() { }
 
   ngOnInit() {
   }
 
+  
+	ngOnChanges(changes: SimpleChanges) {
+		if (changes['selectedItem']) {
+      // if (this.selectedItem) {
+      //   this.isOpen = true;
+      // } else {
+      //   this.isOpen = false;
+      // }
+    }
+    
+    if (changes['isOpen']) {
+      console.log(this.isOpen);
+    }
+	}
+
   togglePane() {
-    this.isOpen = !this.isOpen;
+    this.isOpen = false;
   }
 }

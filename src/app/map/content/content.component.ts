@@ -1,12 +1,29 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
 import * as MapboxDraw from '@mapbox/mapbox-gl-draw';
 import * as MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import { MapService } from '../map.service';
 import {environment} from 'src/environments/environment';
+import { DOCUMENT } from '@angular/common';
 
 const MAPBOX_KEY = environment.mapbox_key;
 const AIRMAP_API_KEY = environment.airmap_api_key;
+
+interface FsDocument extends HTMLDocument {
+	mozFullScreenElement?: Element;
+	msFullscreenElement?: Element;
+	fullscreenElement: Element;
+	webkitFullscreenElement?: Element;
+	webkitExitFullscreen?:() => void;
+	msExitFullscreen?: () => void;
+	mozCancelFullScreen?: () => void;
+}
+
+interface FsDocumentElement extends HTMLElement {
+	msRequestFullscreen?: () => void;
+	mozRequestFullScreen?: () => void;
+	webkitRequestFullscreen?: () => void;
+}
 
 @Component({
   selector: 'app-map-content',
@@ -14,10 +31,17 @@ const AIRMAP_API_KEY = environment.airmap_api_key;
   styleUrls: ['./content.component.scss']
 })
 export class MapContentComponent implements OnInit {
+
 		map: any;
 		draw_control: any;
+    document_element : any;
+    is_fullscreen: boolean = false;
 
-	 	constructor(private mapService: MapService) { }
+	 	constructor(
+      @Inject(DOCUMENT) private document: any,
+      private mapService: MapService) {
+      this.document_element = document.documentElement;
+    }
 
 		ngOnInit() {
 			this.mapLoad();
@@ -89,6 +113,47 @@ export class MapContentComponent implements OnInit {
 			} else {
 				if (e.type !== 'draw.delete') alert("Use the draw tools to draw a polygon!");
 			}
-	  }
+    }
+    
+    setDefaultMap() {
+
+    }
+
+    isFullScreen(): boolean {
+      const fsDoc = <FsDocument> document;
+    
+      return !!(fsDoc.fullscreenElement || fsDoc.mozFullScreenElement || fsDoc.webkitFullscreenElement || fsDoc.msFullscreenElement);
+    }
+
+    toggleFullScreen(): void {
+      const fsDoc = <FsDocument> document;
+    
+      if (!this.isFullScreen()) {
+        const fsDocElem = <FsDocumentElement> document.documentElement;
+    
+        if (fsDocElem.requestFullscreen)
+        fsDocElem.requestFullscreen();
+        else if (fsDocElem.msRequestFullscreen)
+        fsDocElem.msRequestFullscreen();
+        else if (fsDocElem.mozRequestFullScreen)
+        fsDocElem.mozRequestFullScreen();
+        else if (fsDocElem.webkitRequestFullscreen)
+        fsDocElem.webkitRequestFullscreen();
+      }
+      else if (fsDoc.exitFullscreen)
+        fsDoc.exitFullscreen();
+      else if (fsDoc.msExitFullscreen)
+        fsDoc.msExitFullscreen();
+      else if (fsDoc.mozCancelFullScreen)
+        fsDoc.mozCancelFullScreen();
+      else if (fsDoc.webkitExitFullscreen)
+        fsDoc.webkitExitFullscreen();
+      }
+    
+      setFullScreen(): void {
+      this.is_fullscreen = !this.is_fullscreen;
+      if (this.is_fullscreen !== this.isFullScreen())
+        this.toggleFullScreen();
+      }
 
 }

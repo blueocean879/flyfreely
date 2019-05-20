@@ -2,9 +2,11 @@
 <app-map-content></app-map-content>
 <app-map-sidebar
   [items]="sideBarItems"
-  (onSelectItem)="onSelectTreeItem($event)">
+  (onSelectItem)="onSelectTreeItem($event)"
+  (onHideSidebar)="onHideSidebar()">
 </app-map-sidebar>
 <app-map-sub-sidebar
+  #subsidebar
   *ngIf="selectedTreeItem"
   [selectedItem]="selectedTreeItem">
 </app-map-sub-sidebar>

@@ -19,17 +19,7 @@ export class MapSubSidebarComponent implements OnInit {
 
   
 	ngOnChanges(changes: SimpleChanges) {
-		if (changes['selectedItem']) {
-      // if (this.selectedItem) {
-      //   this.isOpen = true;
-      // } else {
-      //   this.isOpen = false;
-      // }
-    }
-    
-    if (changes['isOpen']) {
-      console.log(this.isOpen);
-    }
+		
 	}
 
   togglePane() {

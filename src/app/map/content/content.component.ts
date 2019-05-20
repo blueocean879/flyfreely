@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, Input } from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
 import * as MapboxDraw from '@mapbox/mapbox-gl-draw';
 import * as MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
@@ -36,6 +36,7 @@ export class MapContentComponent implements OnInit {
 		draw_control: any;
     document_element : any;
     is_fullscreen: boolean = false;
+    @Input() allowDrawing:boolean = true;
 
 	 	constructor(
       @Inject(DOCUMENT) private document: any,
@@ -60,7 +61,6 @@ export class MapContentComponent implements OnInit {
 			});
 
 			this.mapService.map = this.map;
-
 			// optional
 			var nav = new mapboxgl.NavigationControl();
 			this.map.addControl(nav, 'bottom-right');
@@ -70,14 +70,21 @@ export class MapContentComponent implements OnInit {
 				mapboxgl: mapboxgl
 			}));
 
-			this.draw_control = new MapboxDraw({
-				displayControlsDefault: false,
-				controls: {
-					point:true,
-					polygon: true,
-					line_string:true,
-					trash: true
-				}
+			if(this.allowDrawing){
+				this.drawingTool();
+			}
+			
+	  }
+
+	  drawingTool(){
+	  	this.draw_control = new MapboxDraw({
+					displayControlsDefault: false,
+					controls: {
+						point:true,
+						polygon: true,
+						line_string:true,
+						trash: true
+					}
 			});
 
 			this.map.addControl(this.draw_control, 'top-right');
@@ -94,25 +101,17 @@ export class MapContentComponent implements OnInit {
 				this.updateArea(e);
 			});
 
-
 			this.map.on('draw.selectionchange', e => {
 				if(e.features.length == 0){
 					let data = this.draw_control.getAll();
 					console.log(data)
 				}
 			})
+
 	  }
 
 	  updateArea(e){
-	  //	console.log(e);
-	  	let data = this.draw_control.getAll();
-			//console.log(this.draw_control.getMode()); 
-			//draw_line_string, draw_polygon, draw_point
-			if (data.features.length > 0) {
-			//	console.log(data.features)
-			} else {
-				if (e.type !== 'draw.delete') alert("Use the draw tools to draw a polygon!");
-			}
+	  
     }
     
     setDefaultMap() {
@@ -121,7 +120,6 @@ export class MapContentComponent implements OnInit {
 
     isFullScreen(): boolean {
       const fsDoc = <FsDocument> document;
-    
       return !!(fsDoc.fullscreenElement || fsDoc.mozFullScreenElement || fsDoc.webkitFullscreenElement || fsDoc.msFullscreenElement);
     }
 

@@ -1,5 +1,5 @@
 
-<app-map-content></app-map-content>
+<app-map-content [allowDrawing]="allowEditing"></app-map-content>
 <app-map-sidebar
   [items]="sideBarItems"
   (onSelectItem)="onSelectTreeItem($event)"

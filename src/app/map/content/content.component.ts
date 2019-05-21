@@ -8,6 +8,9 @@ import { DOCUMENT } from '@angular/common';
 
 const MAPBOX_KEY = environment.mapbox_key;
 const AIRMAP_API_KEY = environment.airmap_api_key;
+const DEFAULT_ZOOM_LEVEL = environment.default_zoomlevel;
+const DEFAULT_LNG = environment.default_lng;
+const DEFAULT_LAT = environment.default_lat;
 
 interface FsDocument extends HTMLDocument {
 	mozFullScreenElement?: Element;
@@ -57,8 +60,8 @@ export class MapContentComponent implements OnInit {
 	    this.map = new mapboxgl.Map({
 			  container: 'map_canvas',
 			  style: 'https://api.airmap.io/maps/v4/tilejson/class_b,class_c,class_d,class_e0?apikey='+AIRMAP_API_KEY+'&token='+AIRMAP_API_KEY+'&theme=satellite', //stylesheet location
-			  zoom: 1,
-			  center: [-14, 35]
+			  zoom: DEFAULT_ZOOM_LEVEL,
+			  center: [DEFAULT_LNG, DEFAULT_LAT]
 			});
 
 			this.mapService.map = this.map;
@@ -78,7 +81,6 @@ export class MapContentComponent implements OnInit {
 
 			if(this.allowDrawing){
 				this.drawingTool();
-
 			}
 			
 	  }
@@ -132,7 +134,7 @@ export class MapContentComponent implements OnInit {
     }
     
     setDefaultMap() {
-
+    	this.map.flyTo({center: [DEFAULT_LNG, DEFAULT_LAT], zoom: DEFAULT_ZOOM_LEVEL});
     }
 
     isFullScreen(): boolean {

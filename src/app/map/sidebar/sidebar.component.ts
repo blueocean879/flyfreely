@@ -8,9 +8,11 @@ import { MapService } from '../map.service';
   styleUrls: ['./sidebar.component.scss']
 })
 export class MapSidebarComponent implements OnInit, AfterViewInit {
+  
   @Input() items: any[] = [];
   @Output() onSelectItem = new EventEmitter();
   @Output() onHideSidebar = new EventEmitter();
+
   actionMapping: IActionMapping = {
     mouse: {
       click: (tree, node, $event) => {

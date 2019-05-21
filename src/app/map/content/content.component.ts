@@ -62,6 +62,11 @@ export class MapContentComponent implements OnInit {
 			});
 
 			this.mapService.map = this.map;
+
+			this.map.on('style.load', () => {
+        
+      });
+
 			// optional
 			var nav = new mapboxgl.NavigationControl();
 			this.map.addControl(nav, 'bottom-right');

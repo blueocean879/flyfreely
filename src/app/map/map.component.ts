@@ -53,7 +53,8 @@ export class MapComponent implements OnInit {
                 layer_id: 'class_e1'
               };
     current_sidebarItems.push(new_item);
-    this.sideBarItems = current_sidebarItems;
+   // this.sideBarItems = current_sidebarItems;
+   if (this.sidebarEL) this.sidebarEL.addLayer(new_item);
   }
 
 }

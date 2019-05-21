@@ -51,6 +51,12 @@ export class MapSidebarComponent implements OnInit, AfterViewInit {
     })
   }
 
+  addLayer(new_item: any) {
+    this.tree.treeModel.nodes.push(new_item)
+    this.tree.treeModel.update();
+    this.tree.treeModel.getNodeById(new_item.id).setIsSelected(true);
+  }
+
   togglePane() {
     this.isOpen = !this.isOpen;
 
@@ -83,5 +89,9 @@ export class MapSidebarComponent implements OnInit, AfterViewInit {
   onDeselect(event){
     let layer_id = event.node.data.layer_id;
     this.mapService.unselectLayer(layer_id);
+  }
+
+  onUpdateTree(event) {
+    console.log(event);
   }
 }

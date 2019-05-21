@@ -38,7 +38,7 @@ export class MapContentComponent implements OnInit {
     is_fullscreen: boolean = false;
     @Input() allowDrawing:boolean = true;
     @Output() OnFeaturesUpdated: EventEmitter<any> = new EventEmitter();
-
+		@Output() onMapStyleLoaded: any = new EventEmitter();
 	 	constructor(
       @Inject(DOCUMENT) private document: any,
       private mapService: MapService) {
@@ -64,7 +64,7 @@ export class MapContentComponent implements OnInit {
 			this.mapService.map = this.map;
 
 			this.map.on('style.load', () => {
-        
+        this.onMapStyleLoaded.next();
       });
 
 			// optional
@@ -78,8 +78,6 @@ export class MapContentComponent implements OnInit {
 
 			if(this.allowDrawing){
 				this.drawingTool();
-
-				
 
 			}
 			
@@ -123,11 +121,11 @@ export class MapContentComponent implements OnInit {
 			this.map.on('draw.selectionchange', e => {
 				if(e.features.length == 0){
 					let data = this.draw_control.getAll();
-					this.OnFeaturesUpdated.emit(data);
+					this.OnFeaturesUpdated.next(data);
 				}
 			})
 
-	  }
+	  }  
 
 	  updateArea(e){
 	  

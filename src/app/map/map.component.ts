@@ -1,6 +1,7 @@
 import { Component, OnInit, SimpleChanges, Input, Output,EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { MapService } from './map.service';
 import { MapSubSidebarComponent } from './sub-sidebar/sub-sidebar.component';
+import { MapSidebarComponent } from './sidebar/sidebar.component';
 
 @Component({
   selector: 'app-map',
@@ -14,8 +15,9 @@ export class MapComponent implements OnInit {
   @Input() allowEditing: boolean;
   @Input() selectedLayers: string[];
 
+  @ViewChild('sidebar') sidebarEL: MapSidebarComponent;
   @ViewChild('subsidebar') subSidebarEL: MapSubSidebarComponent;
-
+  
   constructor(private mapService: MapService){}
 
   ngOnInit() {
@@ -33,6 +35,10 @@ export class MapComponent implements OnInit {
 
   onHideSidebar() {
     if (this.subSidebarEL) this.subSidebarEL.isOpen = false;
+  }
+
+  onMapStyleLoaded() {
+    if (this.sidebarEL) this.sidebarEL.setAllLayersChecked();
   }
 
   getFeaturesUpdated(event){

@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, Input } from '@angular/core';
+import { Component, OnInit, Inject, Input, Output, EventEmitter } from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
 import * as MapboxDraw from '@mapbox/mapbox-gl-draw';
 import * as MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
@@ -37,6 +37,7 @@ export class MapContentComponent implements OnInit {
     document_element : any;
     is_fullscreen: boolean = false;
     @Input() allowDrawing:boolean = true;
+    @Output() OnFeaturesUpdated: EventEmitter<any> = new EventEmitter();
 
 	 	constructor(
       @Inject(DOCUMENT) private document: any,
@@ -72,6 +73,9 @@ export class MapContentComponent implements OnInit {
 
 			if(this.allowDrawing){
 				this.drawingTool();
+
+				
+
 			}
 			
 	  }
@@ -88,6 +92,16 @@ export class MapContentComponent implements OnInit {
 			});
 
 			this.map.addControl(this.draw_control, 'top-right');
+
+		/*	var ids = this.draw_control.set({
+			  type: 'FeatureCollection',
+			  features: [{
+			    type: 'Feature',
+			    properties: {},
+			    id: 'example-id',
+			    geometry: { type: 'Point', coordinates: [0, 0] }
+			  }]
+			});*/
 			
 			this.map.on('draw.create', e => {
 				this.updateArea(e);
@@ -104,7 +118,7 @@ export class MapContentComponent implements OnInit {
 			this.map.on('draw.selectionchange', e => {
 				if(e.features.length == 0){
 					let data = this.draw_control.getAll();
-					console.log(data)
+					this.OnFeaturesUpdated.emit(data);
 				}
 			})
 

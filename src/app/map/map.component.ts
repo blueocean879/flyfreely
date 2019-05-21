@@ -35,4 +35,19 @@ export class MapComponent implements OnInit {
     if (this.subSidebarEL) this.subSidebarEL.isOpen = false;
   }
 
+  getFeaturesUpdated(event){
+    let features = event.features;
+    let last_feature = features[features.length - 1];
+    console.log(last_feature)
+    let current_sidebarItems = this.mapService.getSidebarMenuItems();
+    let new_item = {
+                id: 5,
+                name: 'test',
+                text: 'test',
+                layer_id: 'class_e1'
+              };
+    current_sidebarItems.push(new_item);
+    this.sideBarItems = current_sidebarItems;
+  }
+
 }

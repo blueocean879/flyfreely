@@ -1,10 +1,15 @@
 
-<app-map-content [allowDrawing]="allowEditing"></app-map-content>
+<app-map-content 
+  [allowDrawing]="allowEditing" 
+  (OnFeaturesUpdated)="getFeaturesUpdated($event)">
+</app-map-content>
+
 <app-map-sidebar
   [items]="sideBarItems"
   (onSelectItem)="onSelectTreeItem($event)"
   (onHideSidebar)="onHideSidebar()">
 </app-map-sidebar>
+
 <app-map-sub-sidebar
   #subsidebar
   *ngIf="selectedTreeItem"

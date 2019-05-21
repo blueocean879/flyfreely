@@ -16,7 +16,6 @@ export class MapSidebarComponent implements OnInit, AfterViewInit {
   actionMapping: IActionMapping = {
     mouse: {
       click: (tree, node, $event) => {
-        console.log(node.data);
         this.onSelectItem.next(node.data);
 
         $event.shiftKey

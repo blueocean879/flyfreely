@@ -28,6 +28,11 @@ interface FsDocumentElement extends HTMLElement {
 	webkitRequestFullscreen?: () => void;
 }
 
+interface CustomFeature{
+	type : string;
+	geometry : []
+}
+
 @Component({
   selector: 'app-map-content',
   templateUrl: './content.component.html',
@@ -40,8 +45,10 @@ export class MapContentComponent implements OnInit {
     document_element : any;
     is_fullscreen: boolean = false;
     @Input() allowDrawing:boolean = true;
+    @Input() customFeatures: CustomFeature[];
     @Output() OnFeaturesUpdated: EventEmitter<any> = new EventEmitter();
 		@Output() onMapStyleLoaded: any = new EventEmitter();
+
 	 	constructor(
       @Inject(DOCUMENT) private document: any,
       private mapService: MapService) {

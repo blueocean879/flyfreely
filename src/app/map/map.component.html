@@ -1,10 +1,12 @@
 
 <app-map-content 
   [allowDrawing]="allowEditing" 
+  (onMapStyleLoaded)="onMapStyleLoaded()"
   (OnFeaturesUpdated)="getFeaturesUpdated($event)">
 </app-map-content>
 
 <app-map-sidebar
+  #sidebar
   [items]="sideBarItems"
   (onSelectItem)="onSelectTreeItem($event)"
   (onHideSidebar)="onHideSidebar()">

@@ -42,12 +42,14 @@ export class MapSidebarComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(){
-    setTimeout(() => {
-      const nodes = this.tree.treeModel.nodes;
-      nodes.forEach(node => {
-        this.tree.treeModel.getNodeById(node.id).setIsSelected(true)
-      })
-    },1000);
+
+  }
+
+  setAllLayersChecked() {
+    const nodes = this.tree.treeModel.nodes;
+    nodes.forEach(node => {
+      this.tree.treeModel.getNodeById(node.id).setIsSelected(true);
+    })
   }
 
   togglePane() {

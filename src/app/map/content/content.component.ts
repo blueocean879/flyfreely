@@ -41,7 +41,7 @@ export class MapContentComponent implements OnInit {
     is_fullscreen: boolean = false;
     @Input() allowDrawing:boolean = true;
     @Output() OnFeaturesUpdated: EventEmitter<any> = new EventEmitter();
-
+		@Output() onMapStyleLoaded: any = new EventEmitter();
 	 	constructor(
       @Inject(DOCUMENT) private document: any,
       private mapService: MapService) {
@@ -67,7 +67,7 @@ export class MapContentComponent implements OnInit {
 			this.mapService.map = this.map;
 
 			this.map.on('style.load', () => {
-        
+        this.onMapStyleLoaded.next();
       });
 
 			// optional
@@ -127,7 +127,7 @@ export class MapContentComponent implements OnInit {
 				}
 			})
 
-	  }
+	  }  
 
 	  updateArea(e){
 	  

@@ -25,8 +25,9 @@ export class MapComponent implements OnInit {
   }
 
   onSelectTreeItem(item) {
-    this.selectedTreeItem = item;
-    if (this.subSidebarEL) this.subSidebarEL.isOpen = true;
+   /* this.selectedTreeItem = item;
+    if (this.subSidebarEL) this.subSidebarEL.isOpen = true;*/
+    this.mapService.allowLayerEditing(item);
   }
 
   onHideSubSidebar() {
@@ -44,17 +45,45 @@ export class MapComponent implements OnInit {
   getFeaturesUpdated(event){
     let features = event.features;
     let last_feature = features[features.length - 1];
-    console.log(last_feature)
-    let current_sidebarItems = this.mapService.getSidebarMenuItems();
+    
+    this.mapService.draw_control.deleteAll();
+    this.mapService.addCustomLayer(last_feature);
+
+    let itemsCount;
+    if(this.sidebarEL) 
+      itemsCount = this.sidebarEL.getLayerItemsCount();
+
     let new_item = {
-                id: 5,
-                name: 'test',
-                text: 'test',
-                layer_id: 'class_e1'
-              };
-    current_sidebarItems.push(new_item);
-   // this.sideBarItems = current_sidebarItems;
-   if (this.sidebarEL) this.sidebarEL.addLayer(new_item);
+      id: itemsCount + 1,
+      name: 'Custom ' + last_feature.geometry.type,
+      text: 'Custom ' + last_feature.geometry.type,
+      layer_id: last_feature.id,
+      type : last_feature.geometry.type,
+      coordinates : last_feature.geometry.coordinates
+    };
+
+    let isLayerFound = this.mapService.nodes.find(node => node.layer_id == last_feature.id);
+    if(!isLayerFound){
+      this.mapService.addSidebarMenuItem(new_item);
+      if (this.sidebarEL) this.sidebarEL.setLayerItemSelected(new_item);
+    }
+    
+  }
+
+  getFeatureSelected(event){
+    let  centroid = this.mapService.getCentroid(event);
+    if(centroid != null){
+      this.selectedTreeItem = {
+        centerPt : JSON.stringify(centroid.geometry.coordinates)
+      };
+    }
+    else{
+      this.selectedTreeItem = {
+        centerPt : ""
+      };
+    }
+
+    if (this.subSidebarEL) this.subSidebarEL.isOpen = true;
   }
 
 }

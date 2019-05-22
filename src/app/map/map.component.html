@@ -2,7 +2,8 @@
 <app-map-content 
   [allowDrawing]="allowEditing" 
   (onMapStyleLoaded)="onMapStyleLoaded()"
-  (OnFeaturesUpdated)="getFeaturesUpdated($event)">
+  (OnFeaturesUpdated)="getFeaturesUpdated($event)"
+  (OnFeatureSelected)="getFeatureSelected($event)">
 </app-map-content>
 
 <app-map-sidebar

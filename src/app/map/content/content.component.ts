@@ -29,8 +29,7 @@ interface FsDocumentElement extends HTMLElement {
 }
 
 interface CustomFeature{
-	type : string;
-	geometry : []
+	feature : any;
 }
 
 @Component({
@@ -48,6 +47,7 @@ export class MapContentComponent implements OnInit {
     @Input() customFeatures: CustomFeature[];
     @Output() OnFeaturesUpdated: EventEmitter<any> = new EventEmitter();
 		@Output() onMapStyleLoaded: any = new EventEmitter();
+		@Output() OnFeatureSelected: EventEmitter<any> = new EventEmitter();
 
 	 	constructor(
       @Inject(DOCUMENT) private document: any,
@@ -83,6 +83,7 @@ export class MapContentComponent implements OnInit {
 
 			this.map.addControl(new MapboxGeocoder({
 				accessToken: MAPBOX_KEY,
+				marker: false,
 				mapboxgl: mapboxgl
 			}));
 
@@ -104,17 +105,8 @@ export class MapContentComponent implements OnInit {
 			});
 
 			this.map.addControl(this.draw_control, 'top-right');
+			this.mapService.draw_control = this.draw_control;
 
-		/*	var ids = this.draw_control.set({
-			  type: 'FeatureCollection',
-			  features: [{
-			    type: 'Feature',
-			    properties: {},
-			    id: 'example-id',
-			    geometry: { type: 'Point', coordinates: [0, 0] }
-			  }]
-			});*/
-			
 			this.map.on('draw.create', e => {
 				this.updateArea(e);
 			});
@@ -131,13 +123,46 @@ export class MapContentComponent implements OnInit {
 				if(e.features.length == 0){
 					let data = this.draw_control.getAll();
 					this.OnFeaturesUpdated.next(data);
+					this.draw_control.changeMode('simple_select');
 				}
 			})
+
+			this.map.on('click', e => {
+				let nodes = this.mapService.nodes;
+				let layers = nodes.map(node => node.layer_id);
+	      var features = this.map.queryRenderedFeatures(e.point, {
+	        layers: layers
+	      });
+
+	      if (!features.length) {
+	        return;
+	      }
+	      
+	      this.OnFeatureSelected.next(features[0]);
+	    });
 
 	  }  
 
 	  updateArea(e){
-	  
+	  	if (!e.features.length) {
+        return;
+      }
+
+	  	if(e.type == "draw.update"){
+	      let feature = e.features[0];
+	      let source = this.map.getSource(feature.id);
+	      source.setData(feature);
+
+	      this.mapService.updateSidebarMenuItem(feature);
+	  	}
+
+	  /*	if(e.type == "draw.delete"){
+	  		let feature = e.features[0];
+	  		if(this.map.getLayer(feature.id)){
+	  			this.map.removeLayer(feature.id);
+	  			this.map.removeSource(feature.id);	
+	  		}
+	  	}*/
     }
     
     setDefaultMap() {
@@ -175,9 +200,9 @@ export class MapContentComponent implements OnInit {
       }
     
       setFullScreen(): void {
-      this.is_fullscreen = !this.is_fullscreen;
-      if (this.is_fullscreen !== this.isFullScreen())
-        this.toggleFullScreen();
+      	this.is_fullscreen = !this.is_fullscreen;
+      	if (this.is_fullscreen !== this.isFullScreen())
+        	this.toggleFullScreen();
       }
 
 }

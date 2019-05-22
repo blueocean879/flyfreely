@@ -51,10 +51,15 @@ export class MapSidebarComponent implements OnInit, AfterViewInit {
     })
   }
 
-  addLayer(new_item: any) {
+  setLayerItemSelected(new_item: any){
     this.tree.treeModel.nodes.push(new_item)
     this.tree.treeModel.update();
     this.tree.treeModel.getNodeById(new_item.id).setIsSelected(true);
+  }
+
+  getLayerItemsCount(){
+    const nodes = this.tree.treeModel.nodes;
+    return nodes.length;
   }
 
   togglePane() {

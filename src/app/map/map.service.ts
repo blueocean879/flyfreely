@@ -47,38 +47,7 @@ export class MapService {
     }
 
     getSidebarMenuItems() {
-        const nodes = [
-            {
-              id: 1,
-              name: 'Class B',
-              text: 'Class B',
-              layer_id: 'class_b',
-            },
-            {
-              id: 2,
-              name: 'Class C',
-              text: 'Class C',
-              layer_id: 'class_c',
-            },
-            {
-              id: 3,
-              name: 'Class D',
-              text: 'Class D',
-              layer_id: 'class_d',
-            },
-            {
-              id: 4,
-              name: 'Class E0',
-              text: 'Class E0',
-              layer_id: 'class_e0',
-            }
-        ];
-
-        return nodes;
-    }
-
-    addSidebarMenuItem(item){
-      this.nodes.push(item);
+      return this.nodes;
     }
 
     updateSidebarMenuItem(item){
@@ -87,7 +56,7 @@ export class MapService {
     }
     
     private handleError(error: Response | any) {
-        return Observable.throw(error);
+      return Observable.throw(error);
     }
 
     selectLayer(layer_id){
@@ -104,7 +73,7 @@ export class MapService {
 
     allowLayerEditing(item){
       if(item.id < 5) return; // exclude class_layers 
-      
+
       this.draw_control.set({
         type: 'FeatureCollection',
         features: [{

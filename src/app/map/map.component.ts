@@ -25,8 +25,6 @@ export class MapComponent implements OnInit {
   }
 
   onSelectTreeItem(item) {
-   /* this.selectedTreeItem = item;
-    if (this.subSidebarEL) this.subSidebarEL.isOpen = true;*/
     this.mapService.allowLayerEditing(item);
   }
 
@@ -51,7 +49,7 @@ export class MapComponent implements OnInit {
 
     let itemsCount;
     if(this.sidebarEL) 
-      itemsCount = this.sidebarEL.getLayerItemsCount();
+      itemsCount = this.sideBarItems.length;
 
     let new_item = {
       id: itemsCount + 1,
@@ -64,7 +62,6 @@ export class MapComponent implements OnInit {
 
     let isLayerFound = this.mapService.nodes.find(node => node.layer_id == last_feature.id);
     if(!isLayerFound){
-      this.mapService.addSidebarMenuItem(new_item);
       if (this.sidebarEL) this.sidebarEL.setLayerItemSelected(new_item);
     }
     

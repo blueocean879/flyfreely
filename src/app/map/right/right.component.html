@@ -1,0 +1,27 @@
+<div id="right-layer">
+    <div class="position-relative">
+      <div class="btn-group btn-group-toggle w-100" ngbRadioGroup name="radioBasic" [(ngModel)]="isMarker" (change)="switchMarkerLayer()">
+        <label ngbButtonLabel class="btn-outline-primary">
+          <input ngbButton type="radio" [value]="true"> Location Markers
+        </label>
+        <label ngbButtonLabel class="btn-outline-primary">
+          <input ngbButton type="radio" [value]="false"> Map Layers
+        </label>
+      </div>
+    </div>
+    <div class="tree-container border mt-3 p-2">
+      <tree-root
+        [options] ="options"
+        [nodes]="items"
+        (activate)="activateTree($event)"
+        (focus)="focusTree($event)"
+        (blur)="blurTree($event)"
+        (select)="onSelect($event)"
+        (deselect)="onDeselect($event)"
+        (updateData)="onUpdateTree($event)">
+          <ng-template #treeNodeTemplate let-node let-index="index">
+            <span>{{ node.data.name }}</span>
+          </ng-template>
+      </tree-root>
+    </div>
+</div>

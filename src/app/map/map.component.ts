@@ -2,6 +2,7 @@ import { Component, OnInit, SimpleChanges, Input, Output,EventEmitter, ViewChild
 import { MapService } from './map.service';
 import { MapSubSidebarComponent } from './sub-sidebar/sub-sidebar.component';
 import { MapSidebarComponent } from './sidebar/sidebar.component';
+import { MapContentComponent } from './content/content.component';
 
 @Component({
   selector: 'app-map',
@@ -10,18 +11,35 @@ import { MapSidebarComponent } from './sidebar/sidebar.component';
 })
 export class MapComponent implements OnInit {
 
-  sideBarItems: any[]=[];
+  markers: any[]=[];
+  layers: any[]=[];
+
   selectedTreeItem: any = null;
   @Input() allowEditing: boolean;
   @Input() selectedLayers: string[];
 
+  @ViewChild('mapContent') mapcontentEL: MapContentComponent;
   @ViewChild('sidebar') sidebarEL: MapSidebarComponent;
   @ViewChild('subsidebar') subSidebarEL: MapSubSidebarComponent;
   
+
+  bottom_last_month_missions: number = 18;
+  bottom_two_month_missions: number = 12;
+  bottom_personal: number = 4;
+  bottom_rpas: number = 6;
+  bottom_missions: number = 46;
+  bottom_flight_hours: number = 39.8;
+  bottom_active_missions: number = 0;
+  bottom_maintanance_requests: number = 0;
+  bottom_new_incidents: number = 0;
+  bottom_active_area_approvals: number = 1;
+  bottom_pending_area_apporovals: number = 0;
+
   constructor(private mapService: MapService){}
 
   ngOnInit() {
-    this.sideBarItems = this.mapService.getSidebarMenuItems();
+    this.markers = this.mapService.getMarkers();
+    this.layers = this.mapService.getLayers();
   }
 
   onSelectTreeItem(item) {
@@ -49,7 +67,7 @@ export class MapComponent implements OnInit {
 
     let itemsCount;
     if(this.sidebarEL) 
-      itemsCount = this.sideBarItems.length;
+      itemsCount = this.layers.length;
 
     let new_item = {
       id: itemsCount + 1,
@@ -60,7 +78,7 @@ export class MapComponent implements OnInit {
       coordinates : last_feature.geometry.coordinates
     };
 
-    let isLayerFound = this.mapService.nodes.find(node => node.layer_id == last_feature.id);
+    let isLayerFound = this.mapService.layers.find(node => node.layer_id == last_feature.id);
     if(!isLayerFound){
       if (this.sidebarEL) this.sidebarEL.setLayerItemSelected(new_item);
     }
@@ -81,6 +99,22 @@ export class MapComponent implements OnInit {
     }
 
     if (this.subSidebarEL) this.subSidebarEL.isOpen = true;
+  }
+
+  onMapZoomIn() {
+    console.log("zoom in");
+  }
+
+  onMapZoomOut() {
+    console.log("zoom out");
+  }
+
+  onSelectMarker(event) {
+    console.log("select marker");
+  }
+
+  onSelectLayer(event) {
+    console.log("select layer");
   }
 
 }

@@ -1,12 +1,13 @@
 
 <app-map-content 
+  #mapContent
   [allowDrawing]="allowEditing" 
   (onMapStyleLoaded)="onMapStyleLoaded()"
   (OnFeaturesUpdated)="getFeaturesUpdated($event)"
   (OnFeatureSelected)="getFeatureSelected($event)">
 </app-map-content>
 
-<app-map-sidebar
+<!-- <app-map-sidebar
   #sidebar
   [items]="sideBarItems"
   (onSelectItem)="onSelectTreeItem($event)"
@@ -17,6 +18,31 @@
   #subsidebar
   *ngIf="selectedTreeItem"
   [selectedItem]="selectedTreeItem">
-</app-map-sub-sidebar>
+</app-map-sub-sidebar> -->
+<app-map-left
+  (onMapZoomIn)="onMapZoomIn()"
+  (onMapZoomOut)="onMapZoomOut()"
+  (onSelectMarker)="onSelectMarker($event)"
+  (onSelectLayer)="onSelectLayer($event)">
+</app-map-left>
+
+<app-map-right
+  [markers]="markers"
+  [layers]="layers">
+</app-map-right>
+
+<app-map-bottom 
+  [last_month_missions]="bottom_last_month_missions"
+  [two_month_missions]="bottom_two_month_missions"
+  [personal]="bottom_personal"
+  [rpas]="bottom_rpas"
+  [missions]="bottom_missions"
+  [flight_hours]="bottom_flight_hours"
+  [active_missions]="bottom_active_missions"
+  [maintanance_requests]="bottom_maintanance_requests"
+  [new_incidents]="bottom_new_incidents"
+  [active_area_approvals]="bottom_active_area_approvals"
+  [pending_area_apporovals]="bottom_pending_area_apporovals">
+</app-map-bottom>
 
 

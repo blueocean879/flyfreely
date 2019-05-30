@@ -1,0 +1,229 @@
+:host {
+    #bottom-layer {
+        position: fixed;
+        bottom: 5px;
+        left: 0;
+        right: 0;
+        height: 0;
+        p {
+            margin-bottom: 0;
+        }
+        .left-side {
+            position: fixed;
+            bottom: 5px;
+            height: 200px;
+            left: 5px;
+            background-color: lightgray;
+            width: calc(50% - 150px);
+            border-radius: 5px;
+            -webkit-clip-path: polygon(0% 0%, 100% 0%, calc(100% - 80px) 100%, 0% 100%);
+            clip-path: polygon(0% 0%, 100% 0%, calc(100% - 80px) 100%, 0% 100%);
+            .left-side-content {
+                position: fixed;
+                bottom: 6px;
+                height: 198px;
+                left: 6px;
+                background-color: #FAFAFA;
+                width: calc(50% - 152px);
+                border-radius: 5px;
+                -webkit-clip-path: polygon(0% 0%, 100% 0%, calc(100% - 80px) 100%, 0% 100%);
+                clip-path: polygon(0% 0%, 100% 0%, calc(100% - 80px) 100%, 0% 100%);
+
+                .missions-text {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 200px;
+                    margin-right: 35px;
+                    margin-top: 20px;
+                    h1 {
+                        font-size: 60px;
+                    }
+                    p {
+                        font-size: 18px;
+                        margin-left: 10px;
+                        line-height: 18px;
+                    }
+                }
+                .two-month-content {
+                    width: 200px;
+                    margin-right: 60px;
+                }
+            }
+
+        }
+
+        
+        .left-top-side {
+            position: fixed;
+            bottom: 70px;
+            height: 160px;
+            left: 20px;
+            background-color: lightgray;
+            width: calc(50% - 400px);
+            border-radius: 5px;
+            -webkit-clip-path: polygon(0% 0%, 100% 0%, calc(100% - 70px) 100%, 0% 100%);
+            clip-path: polygon(0% 0%, 100% 0%, calc(100% - 70px) 100%, 0% 100%);
+            .left-top-content {
+                position: fixed;
+                bottom: 71px;
+                height: 158px;
+                left: 21px;
+                background-color: #FAFAFA;
+                width: calc(50% - 402px);
+                border-radius: 5px;
+                -webkit-clip-path: polygon(0% 0%, 100% 0%, calc(100% - 70px) 100%, 0% 100%);
+                clip-path: polygon(0% 0%, 100% 0%, calc(100% - 70px) 100%, 0% 100%);
+
+                .missions-text {
+                    width: 200px;
+                    height: 120px;
+                    margin-left:  calc( 50% - 35px );
+                    transform: translateX(-50%);
+
+                    h1 {
+                        font-size: 70px;
+                    }
+                    p {
+                        font-size: 20px;
+                        margin-left: 10px;
+                        line-height: 20px;
+                    }
+                }
+
+                .last-month-content {
+                    width: calc(100% - 70px);
+                }
+            }
+        }
+
+        .middle-side {
+            position: fixed;
+            bottom: 20px;
+            height: 160px;
+            background-color: #007AF4;
+            width: 460px;
+            left: 50%;
+            transform: translateX(-50%);
+            .middle-side-content {
+                position: fixed;
+                bottom: -18px;
+                height: 240px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 240px;
+                border-radius: 50%;
+                background-color: #FAFAFA;
+                .active-missions-text {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    flex-direction: column;
+                    height: calc(100% - 40px);
+                    h1 {
+                        font-size: 90px;
+                    }
+                    p {
+                        font-size: 20px;
+                        line-height: 20px;
+                    }
+                }
+            }
+        }
+
+
+        .right-side {
+            position: fixed;
+            bottom: 5px;
+            height: 200px;
+            right: 5px;
+            background-color: lightgray;
+            width: calc(50% - 150px);
+            border-radius: 5px;
+            -webkit-clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 80px 100%);
+            clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 80px 100%);
+            .right-side-content {
+                position: fixed;
+                bottom: 6px;
+                height: 198px;
+                right: 6px;
+                background-color: #FAFAFA;
+                width: calc(50% - 152px);
+                border-radius: 5px;
+                -webkit-clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 80px 100%);
+                clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 80px 100%);
+                .new-incidents-text,
+                .active-area-text,
+                .pending-area-text {
+                    display: flex;
+                    align-items: center;
+                    justify-content: flex-start;
+                    width: 200px;
+                    margin-left: 35px;
+                    h1 {
+                        font-size: 50px;
+                    }
+                    p {
+                        font-size: 18px;
+                        margin-left: 10px;
+                        line-height: 18px;
+                    }
+                }
+
+                .active-area-text {
+                    margin-left: 70px;
+                }
+
+                .pending-area-text {
+                    margin-left: 105px;
+                }
+            }
+
+        }
+
+        
+        .right-top-side {
+            position: fixed;
+            bottom: 70px;
+            height: 160px;
+            right: 20px;
+            background-color: lightgray;
+            width: calc(50% - 400px);
+            border-radius: 5px;
+            -webkit-clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 70px 100%);
+            clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 70px 100%);
+            .right-top-content {
+                position: fixed;
+                bottom: 71px;
+                height: 158px;
+                right: 21px;
+                background-color: #FAFAFA;
+                width: calc(50% - 402px);
+                border-radius: 5px;
+                -webkit-clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 70px 100%);
+                clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 70px 100%);
+
+                .requests-text {
+                    width: 200px;
+                    height: 120px;
+                    margin-left:  calc( 50% + 35px );
+                    transform: translateX(-50%);
+
+                    h1 {
+                        font-size: 70px;
+                    }
+                    p {
+                        font-size: 20px;
+                        margin-left: 10px;
+                        line-height: 20px;
+                    }
+                }
+
+                .last-month-content {
+                    margin-left: 70px;
+                    width: calc(100% - 70px);
+                }
+            }
+        }
+    }
+}

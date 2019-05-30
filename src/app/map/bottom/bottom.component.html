@@ -1,0 +1,141 @@
+<div id="bottom-layer">
+    <div class="middle-side">
+      <div class="middle-side-content">
+        <div class="active-missions-text">
+            <h1 [ngClass]="{
+              'text-primary': active_missions!=0,
+              'text-secondary':active_missions==0 }">
+                {{active_missions}}
+            </h1>
+            <p class="text-secondary">MISSIONS</p>
+            <p class="text-secondary">ACTIVE</p>
+        </div>
+      </div>
+    </div>
+   <div class="left-side">
+     <div class="left-side-content">
+       <div class="d-flex align-items-end justify-content-end flex-column">
+        <div class="missions-text">
+          <h1 [ngClass]="{
+            'text-primary': two_month_missions!=0,
+            'text-secondary':two_month_missions==0 }">
+              {{two_month_missions}}
+          </h1>
+          <div>
+            <p class="text-secondary">MISSIONS</p>
+            <p class="text-secondary">APPROVED</p>
+          </div>
+        </div>
+        <div class="two-month-content">
+          <p class="text-center mb-0 mt-1">
+            <i class="fa fa-caret-up text-success mr-2"></i>
+            <span class="text-secondary">2 SINCE LAST MONTH</span>
+          </p>
+        </div>
+      </div>
+      <div class="mt-4 mr-5">
+        <p class="text-secondary text-center">
+          <b>{{personal}}</b> PERSONAL &nbsp;&nbsp;
+          <b>{{rpas}}</b> RPAS  &nbsp;&nbsp;
+          <b>{{missions}}</b> MISSIONS &nbsp;&nbsp;
+          <b>{{flight_hours}}</b> FLIGHT HOURS
+        </p>
+      </div>
+    </div>
+   </div>
+   <div class="left-top-side">
+    <div class="left-top-content">
+        <div class="d-flex align-items-center missions-text">
+            <h1 [ngClass]="{
+              'text-primary': last_month_missions!=0,
+              'text-secondary':last_month_missions==0 }">
+                {{last_month_missions}}
+            </h1>
+            <div>
+              <p class="text-secondary">MISSIONS</p>
+              <p class="text-secondary">APPROVED</p>
+            </div>
+        </div>
+        <div class="border-top">
+          <p class="text-center last-month-content mb-0 mt-1">
+            <i class="fa fa-caret-up text-success mr-2"></i>
+            <span class="text-secondary">1 SINCE LAST MONTH</span>
+          </p>
+        </div>
+    </div>
+  </div>
+
+
+  <div class="right-side">
+    <div class="right-side-content">
+
+            <div class="new-incidents-text">
+              <h1 [ngClass]="{
+                'text-primary': new_incidents!=0,
+                'text-secondary':new_incidents==0 }">
+                  {{new_incidents}}
+              </h1>
+              <div>
+                <p class="text-secondary">NEW</p>
+                <p class="text-secondary">INCIDENTS</p>
+              </div>
+            </div>
+
+            <div class="active-area-text">
+              <h1 [ngClass]="{
+                'text-primary': active_area_approvals!=0,
+                'text-secondary':active_area_approvals==0 }">
+                  {{active_area_approvals}}
+              </h1>
+              <div>
+                <p class="text-secondary">ACTIVE AREA</p>
+                <p class="text-secondary">APROVALS</p>
+              </div>
+            </div>
+
+
+            
+            <div class="d-flex align-items-center justify-content-between">
+              <div class="pending-area-text">
+                <h1 [ngClass]="{
+                  'text-primary': pending_area_apporovals!=0,
+                  'text-secondary':pending_area_apporovals==0 }">
+                    {{pending_area_apporovals}}
+                </h1>
+                <div>
+                  <p class="text-secondary">PENDING AREA</p>
+                  <p class="text-secondary">APROVALS</p>
+                </div>
+              </div>
+
+              <div class="mr-5">
+                <p class="text-secondary">
+                  <b>AUSTRALIA</b> JURISDICTION
+                </p>
+              </div>
+            </div>
+
+    </div>
+  </div>
+  <div class="right-top-side">
+   <div class="right-top-content">
+      <div class="d-flex align-items-center requests-text">
+          <h1 [ngClass]="{
+            'text-primary': maintanance_requests!=0,
+            'text-secondary':maintanance_requests==0 }">
+              {{maintanance_requests}}
+          </h1>
+          <div>
+            <p class="text-secondary">MAINTANCE</p>
+            <p class="text-secondary">REQUESTS</p>
+          </div>
+      </div>
+      <div class="border-top">
+        <p class="text-center last-month-content mb-0 mt-1">
+          <i class="fa fa-caret-up text-success mr-2"></i>
+          <span class="text-secondary">NO CHANGE SINCE LAST MONTH</span>
+        </p>
+      </div>
+   </div>
+ </div>
+</div>

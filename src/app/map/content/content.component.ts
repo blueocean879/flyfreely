@@ -12,22 +12,6 @@ const DEFAULT_ZOOM_LEVEL = environment.default_zoomlevel;
 const DEFAULT_LNG = environment.default_lng;
 const DEFAULT_LAT = environment.default_lat;
 
-interface FsDocument extends HTMLDocument {
-	mozFullScreenElement?: Element;
-	msFullscreenElement?: Element;
-	fullscreenElement: Element;
-	webkitFullscreenElement?: Element;
-	webkitExitFullscreen?:() => void;
-	msExitFullscreen?: () => void;
-	mozCancelFullScreen?: () => void;
-}
-
-interface FsDocumentElement extends HTMLElement {
-	msRequestFullscreen?: () => void;
-	mozRequestFullScreen?: () => void;
-	webkitRequestFullscreen?: () => void;
-}
-
 interface CustomFeature{
 	feature : any;
 }
@@ -42,7 +26,7 @@ export class MapContentComponent implements OnInit {
 		map: any;
 		draw_control: any;
     document_element : any;
-    is_fullscreen: boolean = false;
+
     @Input() allowDrawing:boolean = true;
     @Input() customFeatures: CustomFeature[];
     @Output() OnFeaturesUpdated: EventEmitter<any> = new EventEmitter();
@@ -50,7 +34,6 @@ export class MapContentComponent implements OnInit {
 		@Output() OnFeatureSelected: EventEmitter<any> = new EventEmitter();
 
 	 	constructor(
-      @Inject(DOCUMENT) private document: any,
       private mapService: MapService) {
       this.document_element = document.documentElement;
     }
@@ -128,7 +111,7 @@ export class MapContentComponent implements OnInit {
 			})
 
 			this.map.on('click', e => {
-				let nodes = this.mapService.nodes;
+				let nodes = this.mapService.layers;
 				let layers = nodes.map(node => node.layer_id);
 	      var features = this.map.queryRenderedFeatures(e.point, {
 	        layers: layers
@@ -153,7 +136,7 @@ export class MapContentComponent implements OnInit {
 	      let source = this.map.getSource(feature.id);
 	      source.setData(feature);
 
-	      this.mapService.updateSidebarMenuItem(feature);
+	      this.mapService.updateLayersItem(feature);
 	  	}
 
 	  /*	if(e.type == "draw.delete"){
@@ -169,40 +152,5 @@ export class MapContentComponent implements OnInit {
     	this.map.flyTo({center: [DEFAULT_LNG, DEFAULT_LAT], zoom: DEFAULT_ZOOM_LEVEL});
     }
 
-    isFullScreen(): boolean {
-      const fsDoc = <FsDocument> document;
-      return !!(fsDoc.fullscreenElement || fsDoc.mozFullScreenElement || fsDoc.webkitFullscreenElement || fsDoc.msFullscreenElement);
-    }
-
-    toggleFullScreen(): void {
-      const fsDoc = <FsDocument> document;
-    
-      if (!this.isFullScreen()) {
-        const fsDocElem = <FsDocumentElement> document.documentElement;
-    
-        if (fsDocElem.requestFullscreen)
-        fsDocElem.requestFullscreen();
-        else if (fsDocElem.msRequestFullscreen)
-        fsDocElem.msRequestFullscreen();
-        else if (fsDocElem.mozRequestFullScreen)
-        fsDocElem.mozRequestFullScreen();
-        else if (fsDocElem.webkitRequestFullscreen)
-        fsDocElem.webkitRequestFullscreen();
-      }
-      else if (fsDoc.exitFullscreen)
-        fsDoc.exitFullscreen();
-      else if (fsDoc.msExitFullscreen)
-        fsDoc.msExitFullscreen();
-      else if (fsDoc.mozCancelFullScreen)
-        fsDoc.mozCancelFullScreen();
-      else if (fsDoc.webkitExitFullscreen)
-        fsDoc.webkitExitFullscreen();
-      }
-    
-      setFullScreen(): void {
-      	this.is_fullscreen = !this.is_fullscreen;
-      	if (this.is_fullscreen !== this.isFullScreen())
-        	this.toggleFullScreen();
-      }
 
 }

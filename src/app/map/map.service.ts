@@ -16,7 +16,7 @@ export class MapService {
       
     map:Map;
     draw_control: any;
-    nodes:Array<any> = [
+    layers:Array<any> = [
       {
         id: 1,
         name: 'Class B',
@@ -43,15 +43,51 @@ export class MapService {
       }
     ];
 
+    markers:Array<any> = [
+      {
+        id: 1,
+        name: 'Marker A',
+        text: 'Marker A',
+        layer_id: 'class_b',
+      },
+      {
+        id: 2,
+        name: 'Marker B',
+        text: 'Marker B',
+        layer_id: 'class_c',
+      },
+      {
+        id: 3,
+        name: 'Marker C',
+        text: 'Marker C',
+        layer_id: 'class_d',
+      },
+      {
+        id: 4,
+        name: 'Marker D',
+        text: 'Marker D',
+        layer_id: 'class_e0',
+      }
+    ];
+
     constructor(private http: HttpClient) {
     }
 
-    getSidebarMenuItems() {
-      return this.nodes;
+    getMarkers() {
+      return this.markers;
     }
 
-    updateSidebarMenuItem(item){
-      let nodeSelected = this.nodes.find(node => node.layer_id == item.id);
+    getLayers() {
+      return  this.layers;
+    }
+
+    updateMarkersItem(item){
+      let nodeSelected = this.markers.find(node => node.layer_id == item.id);
+      nodeSelected.coordinates = item.geometry.coordinates;
+    }
+
+    updateLayersItem(item) {
+      let nodeSelected = this.layers.find(node => node.layer_id == item.id);
       nodeSelected.coordinates = item.geometry.coordinates;
     }
     

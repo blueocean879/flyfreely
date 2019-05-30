@@ -1,0 +1,31 @@
+:host {
+    #right-layer {
+        width: 250px;
+        height: calc(100vh - 250px);
+        position: fixed;
+        top: 5px;
+        background-color: #FAFAFA;
+        right: 5px;
+        border-radius: 5px;
+        border: 1px solid lightgray;
+        text-align: center;
+        padding: 5px;
+
+        .btn-group {
+            margin-top: 50px;
+            label {
+                font-size: 14px;
+            }
+        }
+
+        .tree-container {
+            height: calc(100% - 100px);
+        }
+
+        .btn-outline-primary:focus, 
+        .btn-outline-primary.focus{
+            box-shadow: initial;
+        }
+
+    }
+}

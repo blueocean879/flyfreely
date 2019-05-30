@@ -7,24 +7,37 @@ import { MapContentComponent } from './content/content.component';
 import { MapService } from './map.service';
 import { HttpClientModule } from '@angular/common/http';
 import { TreeModule } from 'angular-tree-component';
+import { MapBottomComponent } from './bottom/bottom.component';
+import { MapLeftComponent } from './left/left.component';
+import { MapRightComponent } from './right/right.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
 	imports: [
         CommonModule,
         HttpClientModule,
-        TreeModule.forRoot()
+		TreeModule.forRoot(),
+		NgbModule,
+		FormsModule
 	],
 	exports: [
         MapComponent,
         MapSidebarComponent,
         MapSubSidebarComponent,
-        MapContentComponent
+        MapContentComponent,
+        MapBottomComponent,
+        MapLeftComponent,
+        MapRightComponent
 	],
 	declarations: [
         MapComponent,
         MapSidebarComponent,
         MapSubSidebarComponent,
-        MapContentComponent
+		MapContentComponent,
+		MapBottomComponent,
+        MapLeftComponent,
+        MapRightComponent
 	],
 	providers:[
         MapService

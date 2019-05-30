@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, Input, Output, EventEmitter, ViewChild } from '@angular/core';
+import { Component, OnInit, Inject, Input, Output, EventEmitter, ViewChild, SimpleChanges } from '@angular/core';
 import { MapService } from '../map.service';
 import { IActionMapping, TreeComponent, ITreeOptions, TREE_ACTIONS } from 'angular-tree-component';
 
@@ -47,7 +47,14 @@ export class MapRightComponent implements OnInit {
 	ngOnInit() {
 	}
 
-	switchMarkerLayer() {
+  
+	ngOnChanges(changes: SimpleChanges) {
+		if (changes['markers'] || changes['layers']) {
+			this.setTreeItems();
+		}
+	}
+
+	setTreeItems() {
 		if (this.isMarker) this.items = this.markers;
 		else this.items = this.layers;
 	}

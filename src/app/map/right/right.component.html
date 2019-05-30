@@ -1,6 +1,6 @@
 <div id="right-layer">
     <div class="position-relative">
-      <div class="btn-group btn-group-toggle w-100" ngbRadioGroup name="radioBasic" [(ngModel)]="isMarker" (change)="switchMarkerLayer()">
+      <div class="btn-group btn-group-toggle w-100" ngbRadioGroup name="radioBasic" [(ngModel)]="isMarker" (change)="setTreeItems()">
         <label ngbButtonLabel class="btn-outline-primary">
           <input ngbButton type="radio" [value]="true"> Location Markers
         </label>

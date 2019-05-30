@@ -15,8 +15,8 @@
   </div>
   <div class="text-center full-screen-content">
     <button class="btn btn-link text-dark" (click)="setFullScreen()">
-        <i *ngIf="!is_fullscreen" class="fas fa-expand-arrows-alt"></i>
-        <i *ngIf="is_fullscreen" class="fas fa-compress-arrows-alt"></i>
+        <i *ngIf="!isFullScreen()" class="fas fa-expand-arrows-alt"></i>
+        <i *ngIf="isFullScreen()" class="fas fa-compress-arrows-alt"></i>
     </button>
   </div>
 </div>

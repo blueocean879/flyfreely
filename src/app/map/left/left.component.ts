@@ -28,8 +28,6 @@ interface FsDocumentElement extends HTMLElement {
   styleUrls: ['./left.component.scss']
 })
 export class MapLeftComponent implements OnInit {
-
-	is_fullscreen: boolean = false;
 	
 	@Output() onMapZoomOut = new EventEmitter();
 	@Output() onMapZoomIn = new EventEmitter();
@@ -83,8 +81,7 @@ export class MapLeftComponent implements OnInit {
 		}
 	  
 		setFullScreen(): void {
-			this.is_fullscreen = !this.is_fullscreen;
-			if (this.is_fullscreen !== this.isFullScreen())
+			if (!this.isFullScreen())
 			  this.toggleFullScreen();
 		}
   

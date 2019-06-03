@@ -48,32 +48,94 @@ export class MapContentComponent implements OnInit {
 	    );
 
 	    this.map = new mapboxgl.Map({
-			  container: 'map_canvas',
-			  style: 'https://api.airmap.io/maps/v4/tilejson/class_b,class_c,class_d,class_e0?apikey='+AIRMAP_API_KEY+'&token='+AIRMAP_API_KEY+'&theme=satellite', //stylesheet location
-			  zoom: DEFAULT_ZOOM_LEVEL,
-			  center: [DEFAULT_LNG, DEFAULT_LAT]
+		  container: 'map_canvas',
+		  style: 'https://api.airmap.io/maps/v4/tilejson/class_b,class_c,class_d,class_e0?apikey='+AIRMAP_API_KEY+'&token='+AIRMAP_API_KEY+'&theme=satellite', //stylesheet location
+		  zoom: DEFAULT_ZOOM_LEVEL,
+		  center: [DEFAULT_LNG, DEFAULT_LAT]
+		});
+
+		this.mapService.map = this.map;
+
+		this.map.on('style.load', () => {
+	    	this.onMapStyleLoaded.next();
+	    });
+
+		this.map.addControl(new MapboxGeocoder({
+			accessToken: MAPBOX_KEY,
+			marker: false,
+			mapboxgl: mapboxgl
+		}));
+
+		if(this.allowDrawing){
+			this.drawingTool();
+		}
+
+		this.map.on('load',() => {
+			let markers = this.mapService.getMarkers();
+			let markerCollections = {
+				"type": "FeatureCollection",
+				"features": []
+			};
+
+			markers.forEach(marker => {
+			   markerCollections.features.push(marker.geojson);
 			});
 
-			this.mapService.map = this.map;
+			this.map.addLayer({
+				"id": "places",
+				"interactive": true,
+				"type": "circle",
+				"source": {
+					"type": "geojson",
+					"data": markerCollections
+				},
+				"paint":{
+					'circle-color': '#ff0000',
+					'circle-radius': 10
+				}
+			});
 
-			this.map.on('style.load', () => {
-        this.onMapStyleLoaded.next();
-      });
+			this.map.on('click', 'places', e => {
+				this.map.flyTo({center: e.features[0].geometry.coordinates});
+				
+				new mapboxgl.Popup()
+				.setLngLat(e.features[0].geometry.coordinates)
+				.setHTML(e.features[0].properties.name)
+				.addTo(this.map);
 
-			// optional
-			var nav = new mapboxgl.NavigationControl();
-			this.map.addControl(nav, 'bottom-right');
 
-			this.map.addControl(new MapboxGeocoder({
-				accessToken: MAPBOX_KEY,
-				marker: false,
-				mapboxgl: mapboxgl
-			}));
+			});
+			 
+			// Change the cursor to a pointer when the it enters a feature in the 'symbols' layer.
+			this.map.on('mouseenter', 'places', e => {
+				this.map.getCanvas().style.cursor = 'pointer';
+			});
+			 
+			// Change it back to a pointer when it leaves.
+			this.map.on('mouseleave', 'places', e => {
+				this.map.getCanvas().style.cursor = '';
+			});
 
-			if(this.allowDrawing){
-				this.drawingTool();
-			}
-			
+			this.map.on('click', e => {
+				let nodes = this.mapService.layers;
+				let layers = nodes.map(node => node.layer_id);
+		      	var features = this.map.queryRenderedFeatures(e.point, {
+		        	layers: layers
+		      	});
+
+		      	if (!features.length) {
+		        	return;
+		      	}
+
+	      		new mapboxgl.Popup()
+				.setLngLat(e.lngLat)
+				.setHTML(features[0].properties.name)
+				.addTo(this.map);
+
+	      		this.OnFeatureSelected.next(features[0]);
+	    	});
+		});
+		
 	  }
 
 	  drawingTool(){
@@ -110,26 +172,12 @@ export class MapContentComponent implements OnInit {
 				}
 			})
 
-			this.map.on('click', e => {
-				let nodes = this.mapService.layers;
-				let layers = nodes.map(node => node.layer_id);
-	      var features = this.map.queryRenderedFeatures(e.point, {
-	        layers: layers
-	      });
-
-	      if (!features.length) {
-	        return;
-	      }
-	      
-	      this.OnFeatureSelected.next(features[0]);
-	    });
-
 	  }  
 
-	  updateArea(e){
-	  	if (!e.features.length) {
-        return;
-      }
+	  	updateArea(e){
+	  		if (!e.features.length) {
+        	return;
+      	}
 
 	  	if(e.type == "draw.update"){
 	      let feature = e.features[0];
@@ -139,17 +187,18 @@ export class MapContentComponent implements OnInit {
 	      this.mapService.updateLayersItem(feature);
 	  	}
 
-	  /*	if(e.type == "draw.delete"){
-	  		let feature = e.features[0];
-	  		if(this.map.getLayer(feature.id)){
-	  			this.map.removeLayer(feature.id);
-	  			this.map.removeSource(feature.id);	
-	  		}
-	  	}*/
     }
     
     setDefaultMap() {
     	this.map.flyTo({center: [DEFAULT_LNG, DEFAULT_LAT], zoom: DEFAULT_ZOOM_LEVEL});
+    }
+
+    zoomOut(){
+    	this.map.zoomOut();	
+    }
+
+    zoomIn(){
+    	this.map.zoomIn();
     }
 
 

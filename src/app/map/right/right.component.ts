@@ -89,13 +89,44 @@ export class MapRightComponent implements OnInit {
   }
 
   onSelect(event){
-    let layer_id = event.node.data.layer_id;
-    this.mapService.selectLayer(layer_id);
+    if (this.isMarker){
+      let filter = ['in','id'];
+      const nodes = this.tree.treeModel.nodes;
+
+      nodes.forEach(node => {
+        let selected = this.tree.treeModel.getNodeById(node.id).isSelected;
+        if(selected){
+          filter.push(node.id);
+        }
+      });
+   
+      this.mapService.selectMarker(filter)
+    }
+    else{
+      let layer_id = event.node.data.layer_id;
+      this.mapService.selectLayer(layer_id);
+    }
+    
   }
 
   onDeselect(event){
-    let layer_id = event.node.data.layer_id;
-    this.mapService.unselectLayer(layer_id);
+    if (this.isMarker){
+      let filter = ['all'];
+      const nodes = this.tree.treeModel.nodes;
+
+      nodes.forEach(node => {
+        let selected = this.tree.treeModel.getNodeById(node.id).isSelected;
+        if(!selected){
+          filter.push(['!=','id',node.id]);
+        }
+      });
+     
+      this.mapService.unselectMarker(filter)
+    }
+    else{
+      let layer_id = event.node.data.layer_id;
+      this.mapService.unselectLayer(layer_id);
+    }
   }
 
   onUpdateTree(event) {

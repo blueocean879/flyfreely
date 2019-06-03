@@ -4,6 +4,8 @@ import { MapSubSidebarComponent } from './sub-sidebar/sub-sidebar.component';
 import { MapSidebarComponent } from './sidebar/sidebar.component';
 import { MapContentComponent } from './content/content.component';
 
+import { MapRightComponent } from './right/right.component';
+
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
@@ -21,6 +23,8 @@ export class MapComponent implements OnInit {
   @ViewChild('mapContent') mapcontentEL: MapContentComponent;
   @ViewChild('sidebar') sidebarEL: MapSidebarComponent;
   @ViewChild('subsidebar') subSidebarEL: MapSubSidebarComponent;
+
+  @ViewChild('rightbar') rightbar : MapRightComponent;
   
 
   bottom_last_month_missions: number = 18;
@@ -55,7 +59,7 @@ export class MapComponent implements OnInit {
   }
 
   onMapStyleLoaded() {
-    if (this.sidebarEL) this.sidebarEL.setAllLayersChecked();
+    if (this.rightbar) this.rightbar.setAllLayersChecked();
   }
 
   getFeaturesUpdated(event){
@@ -102,11 +106,11 @@ export class MapComponent implements OnInit {
   }
 
   onMapZoomIn() {
-    console.log("zoom in");
+    this.mapcontentEL.zoomIn();
   }
 
   onMapZoomOut() {
-    console.log("zoom out");
+    this.mapcontentEL.zoomOut();
   }
 
   onSelectMarker(event) {

@@ -48,25 +48,69 @@ export class MapService {
         id: 1,
         name: 'Marker A',
         text: 'Marker A',
-        layer_id: 'class_b',
+        geojson: {
+          "type": "Feature",
+          "properties": {
+            name: 'Marker A',
+            text: 'Marker A',
+            id: 1,
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [-26.304687499987352, 57.59048224512486]
+          }
+        }
       },
       {
         id: 2,
         name: 'Marker B',
         text: 'Marker B',
-        layer_id: 'class_c',
+        geojson: {
+          "type": "Feature",
+          "properties": {
+            name: 'Marker B',
+            text: 'Marker B',
+            id: 2,
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [73.53906250001367, 50.60183237448439]
+          }
+        }
       },
       {
         id: 3,
         name: 'Marker C',
         text: 'Marker C',
-        layer_id: 'class_d',
+        geojson: {
+          "type": "Feature",
+          "properties": {
+            name: 'Marker C',
+            text: 'Marker C',
+            id: 3,
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [-91.34375000000043, 42.91352119090271]
+          }
+        }
       },
       {
         id: 4,
         name: 'Marker D',
         text: 'Marker D',
-        layer_id: 'class_e0',
+        geojson:  {
+          "type": "Feature",
+          "properties": {
+            name: 'Marker D',
+            text: 'Marker D',
+            id : 4
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [-113.8437500000006, 63.92127630323313]
+          }
+        }
       }
     ];
 
@@ -104,6 +148,18 @@ export class MapService {
     unselectLayer(layer_id){
       if(this.map.getLayer(layer_id)){
         this.map.setLayoutProperty(layer_id, 'visibility', 'none');
+      }
+    }
+
+    selectMarker(filter){
+      if(this.map.getLayer('places')){
+        this.map.setFilter('places', filter);
+      }
+    }
+
+    unselectMarker(filter){
+      if(this.map.getLayer('places')){
+        this.map.setFilter('places', filter);
       }
     }
 

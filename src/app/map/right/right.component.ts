@@ -10,14 +10,14 @@ import { IActionMapping, TreeComponent, ITreeOptions, TREE_ACTIONS } from 'angul
 })
 export class MapRightComponent implements OnInit {
 
-	isMarker: boolean = true;	
-	items: any[]=[];
-
+  isMarker: boolean = true;	
+  
 	@Input() markers: any[] = [];
 	@Input() layers: any[] = [];
 
 	@Output() onSelectMarker = new EventEmitter();
-	@Output() onSelectLayer = new EventEmitter();
+  @Output() onSelectLayer = new EventEmitter();
+  
 	actionMapping: IActionMapping = {
     mouse: {
       click: (tree, node, $event) => {
@@ -38,7 +38,8 @@ export class MapRightComponent implements OnInit {
     useCheckbox: true
   };
 
-  @ViewChild(TreeComponent) tree: TreeComponent;
+  @ViewChild('markerTree') markerTree: TreeComponent;
+  @ViewChild('layerTree') layerTree: TreeComponent;
 
 	constructor(
       private mapService: MapService) {
@@ -49,28 +50,36 @@ export class MapRightComponent implements OnInit {
 
   
 	ngOnChanges(changes: SimpleChanges) {
-		if (changes['markers'] || changes['layers']) {
-			this.setTreeItems();
-		}
-	}
-
-	setTreeItems() {
-		if (this.isMarker) this.items = this.markers;
-		else this.items = this.layers;
 	}
 
 	setAllLayersChecked() {
-    const nodes = this.tree.treeModel.nodes;
+    const nodes = this.layerTree.treeModel.nodes;
     nodes.forEach(node => {
-      this.tree.treeModel.getNodeById(node.id).setIsSelected(true);
+      this.layerTree.treeModel.getNodeById(node.id).setIsSelected(true);
     })
   }
 
-  setLayerItemSelected(new_item: any){
-    this.tree.treeModel.nodes.push(new_item)
-    this.tree.treeModel.update();
-    this.tree.treeModel.getNodeById(new_item.id).setIsSelected(true);
+  setAllMarkersChecked() {
+    const nodes = this.markerTree.treeModel.nodes;
+    nodes.forEach(node => {
+      this.markerTree.treeModel.getNodeById(node.id).setIsSelected(true);
+    })
   }
+
+
+  setLayerItemSelected(new_item: any){
+    this.layerTree.treeModel.nodes.push(new_item)
+    this.layerTree.treeModel.update();
+    this.layerTree.treeModel.getNodeById(new_item.id).setIsSelected(true);
+  }
+
+
+  setMarkerItemSelected(new_item: any){
+    this.markerTree.treeModel.nodes.push(new_item)
+    this.markerTree.treeModel.update();
+    this.markerTree.treeModel.getNodeById(new_item.id).setIsSelected(true);
+  }
+
 
   activateTree(event) {
   
@@ -91,10 +100,10 @@ export class MapRightComponent implements OnInit {
   onSelect(event){
     if (this.isMarker){
       let filter = ['in','id'];
-      const nodes = this.tree.treeModel.nodes;
+      const nodes = this.markerTree.treeModel.nodes;
 
       nodes.forEach(node => {
-        let selected = this.tree.treeModel.getNodeById(node.id).isSelected;
+        let selected = this.markerTree.treeModel.getNodeById(node.id).isSelected;
         if(selected){
           filter.push(node.id);
         }
@@ -111,11 +120,11 @@ export class MapRightComponent implements OnInit {
 
   onDeselect(event){
     if (this.isMarker){
-      let filter = ['all'];
-      const nodes = this.tree.treeModel.nodes;
+      let filter: any[] = ['all'];
+      const nodes = this.markerTree.treeModel.nodes;
 
       nodes.forEach(node => {
-        let selected = this.tree.treeModel.getNodeById(node.id).isSelected;
+        let selected = this.markerTree.treeModel.getNodeById(node.id).isSelected;
         if(!selected){
           filter.push(['!=','id',node.id]);
         }

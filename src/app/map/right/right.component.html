@@ -11,8 +11,10 @@
     </div>
     <div class="tree-container border mt-3 p-2">
       <tree-root
+        [hidden]="!isMarker"
+        #markerTree
         [options] ="options"
-        [nodes]="items"
+        [nodes]="markers"
         (activate)="activateTree($event)"
         (focus)="focusTree($event)"
         (blur)="blurTree($event)"
@@ -23,5 +25,21 @@
             <span>{{ node.data.name }}</span>
           </ng-template>
       </tree-root>
+
+      <tree-root
+      [hidden]="isMarker"
+      #layerTree
+      [options] ="options"
+      [nodes]="layers"
+      (activate)="activateTree($event)"
+      (focus)="focusTree($event)"
+      (blur)="blurTree($event)"
+      (select)="onSelect($event)"
+      (deselect)="onDeselect($event)"
+      (updateData)="onUpdateTree($event)">
+        <ng-template #treeNodeTemplate let-node let-index="index">
+          <span>{{ node.data.name }}</span>
+        </ng-template>
+    </tree-root>
     </div>
 </div>

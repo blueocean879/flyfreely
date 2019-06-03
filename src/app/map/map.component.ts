@@ -59,7 +59,10 @@ export class MapComponent implements OnInit {
   }
 
   onMapStyleLoaded() {
-    if (this.rightbar) this.rightbar.setAllLayersChecked();
+    if (this.rightbar) {
+      this.rightbar.setAllLayersChecked();
+      this.rightbar.setAllMarkersChecked();
+    } 
   }
 
   getFeaturesUpdated(event){
